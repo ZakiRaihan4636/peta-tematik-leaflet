@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -36,7 +36,7 @@ model regency_poligons {
   id         Int         @id
   regency_id Int
   type       TypePolygon @default(Polygon)
-  polygon    String      @db.LongText
+  polygon    String      @db.Text
 
   // Relasi ke Regencies
   regency Regencies @relation("RegencyPolygons", fields: [regency_id], references: [id])
