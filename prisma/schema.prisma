@@ -1,14 +1,55 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum TypePolygon {
+  Polygon
+  MultiPolygon
+}
+
+model Regencies {
+  id                    Int    @id
+  name                  String
+  alt_name              String
+  latitude              Float  @default(0)
+  longitude             Float  @default(0)
+  total_population      Int    @default(0)
+  total_hospital        Int    @default(0)
+  total_destination     Int    @default(0)
+  total_mousque         Int    @default(0)
+  total_tourism         Int    @default(0)
+  total_private_college Int    @default(0)
+
+  // Relasi dengan regency_poligons
+  polygons regency_poligons[] @relation("RegencyPolygons")
+
+  // Relasi dengan districts
+  districts districts[] @relation("RegencyDistricts")
+}
+
+model regency_poligons {
+  id         Int         @id
+  regency_id Int
+  type       TypePolygon @default(Polygon)
+  polygon    String      @db.Text
+
+  // Relasi ke Regencies
+  regency Regencies @relation("RegencyPolygons", fields: [regency_id], references: [id])
+}
+
+model districts {
+  id         Int    @id
+  name       String
+  alt_name   String
+  latitude   Float  @default(0)
+  longitude  Float  @default(0)
+  regency_id Int
+
+  // Relasi ke Regencies
+  regency Regencies @relation("RegencyDistricts", fields: [regency_id], references: [id])
 }
