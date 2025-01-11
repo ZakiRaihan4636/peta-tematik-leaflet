@@ -3,7 +3,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface Kecamatan {
@@ -59,7 +58,7 @@ const KecamatanPage: React.FC = () => {
       <MapContainer center={[-8.65, 115.2]} zoom={10} style={{ height: '500px', width: '100%' }}>
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {kecamatanData.map((kecamatan) => (
-          <Marker key={kecamatan.id} position={[kecamatan.latitude, kecamatan.longitude] as LatLngExpression} alt={kecamatan.name}>
+          <Marker key={kecamatan.id} position={[kecamatan.latitude, kecamatan.longitude]}>
             <Popup>
               <span>{kecamatan.name}</span>
             </Popup>
