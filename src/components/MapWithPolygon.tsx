@@ -1,69 +1,45 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-'use client'; // App Router menggunakan client component untuk React-Leaflet
+'use client';
 
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Polygon, Tooltip } from 'react-leaflet';
-import { LatLngExpression } from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 
-// Tipikal data wilayah dari API
-interface Region {
+interface LocationData {
   id: number;
   name: string;
+  totalPopulation: number;
+  totalHospital: number;
   totalMosque: number;
-  polygons: LatLngExpression[][];
+  totalPrivateCollege: number;
+  totalTourism: number;
+  totalTouristDestination: number;
+  polygons: number[][][];
 }
 
-const MapWithPolygon: React.FC = () => {
-  const [regionsData, setRegionsData] = useState<Region[]>([]);
+interface MapComponentProps {
+  data: LocationData[];
+  title: string;
+}
 
-  // Fungsi untuk mengambil data dari API
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:3000/api/tematic-data'); // Ganti dengan URL API yang sesuai
-  //       const data = await response.json();
-
-  //       // Log data untuk memeriksa format yang diterima
-  //       console.log('Data received from API:', data);
-
-  //       // Pastikan data adalah array sebelum melakukan map
-  //       if (Array.isArray(data)) {
-  //         const formattedData = data.map((region: any) => ({
-  //           id: region.id,
-  //           name: region.name,
-  //           totalMosque: region.totalMosque,
-  //           polygons: region.polygons[0] || [], // Ambil poligon pertama atau kosongkan jika tidak ada
-  //         }));
-
-  //         setRegionsData(formattedData);
-  //       } else {
-  //         console.error('Data is not an array:', data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  // Gunakan useEffect untuk memanggil fetchData saat komponen pertama kali dimuat
-  //   useEffect(() => {
-  //     fetchData();
-  //   }, []);
-
+const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
   return (
-    <MapContainer center={[-8.65, 115.2]} zoom={10} style={{ height: '500px', width: '100%' }}>
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' />
-      {/* {regionsData.map((region) => (
-        <Polygon key={region.id} positions={region.polygons as LatLngExpression[]} color="green">
-          <Tooltip direction="center" opacity={1} permanent>
-            <div style={{ textAlign: 'center' }}>
-              <strong>{region.name}</strong>
-              <br />
-              Masjid: {region.totalMosque}
-            </div>
-          </Tooltip>
-        </Polygon>
-      ))} */}
-    </MapContainer>
+    <div>
+      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      <MapContainer center={[-8.3629537, 115.1360451]} zoom={10} scrollWheelZoom={false} style={{ height: '500px', width: '100%' }}>
+        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {data.map((regency) =>
+          regency.polygons.map((polygon, index) => {
+            if (polygon.length > 1) {
+              return <Polygon key={`${regency.id}-${index}`} positions={polygon} color="purple" />;
+            } else {
+              return <Polygon key={`${regency.id}-${index}`} positions={polygon[0]} color="blue" />;
+            }
+          })
+        )}
+      </MapContainer>
+    </div>
   );
 };
 
-export default MapWithPolygon;
+export default MapComponent;

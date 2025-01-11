@@ -2,38 +2,35 @@
 
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+
+// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import ContainerPage from '@/components/Container';
 
 interface LocationData {
   id: number;
-  name: string;
-  totalPopulation: number;
-  totalHospital: number;
-  totalMosque: number;
-  totalPrivateCollege: number;
-  totalTourism: number;
-  totalTouristDestination: number;
-  polygons: number[][][];
+  alt_name: string;
+  latitude: number;
+  longitude: number;
 }
 
 const ClientSideMap = () => {
   const [mounted, setMounted] = useState(false);
-  const [masjid, setMasjid] = useState<LocationData[]>([]);
+  const [kabupaten, setKabupaten] = useState<LocationData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fungsi untuk mengambil data masjid dari API
-  const getDataMasjid = async (): Promise<LocationData[]> => {
+  const getDataKabupaten = async (): Promise<LocationData[]> => {
     try {
-      const response = await fetch('http://localhost:3000/api/tematic-data');
+      const response = await fetch('http://localhost:3000/api/regencies'); // Replace with your API endpoint for Kabupaten
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const responseData = await response.json();
       return responseData.data;
     } catch (error) {
-      console.error('Error fetching masjid data:', error);
-      setError('Error fetching masjid data');
+      console.error('Error fetching kabupaten data:', error);
+      setError('Error fetching kabupaten data');
       return [];
     }
   };
@@ -42,8 +39,8 @@ const ClientSideMap = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const masjidData = await getDataMasjid();
-        setMasjid(masjidData);
+        const kabupatenData = await getDataKabupaten();
+        setKabupaten(kabupatenData);
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -70,21 +67,19 @@ const ClientSideMap = () => {
     );
   }
 
-  const MapWithNoSSR = dynamic(() => import('../../../components/MapWithPolygon'), {
+  const MapWithNoSSR = dynamic(() => import('../../components/MapComponent'), {
     ssr: false,
     loading: () => <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>,
   });
 
   return (
     <div>
-      {/* Komponen Map dengan data yang sudah diambil */}
-      <MapWithNoSSR data={masjid} />
+      <MapWithNoSSR data={kabupaten} title="Peta Kabupaten" />
     </div>
   );
 };
 
-// Halaman utama yang merender ClientSideMap
-export default function MasjidPage() {
+export default function KabupatenPage() {
   return (
     <div className="container mx-auto p-4">
       <ContainerPage>

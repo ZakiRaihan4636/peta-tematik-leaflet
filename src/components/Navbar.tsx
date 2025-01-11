@@ -342,32 +342,32 @@ const NavbarComponent = () => {
 
   useEffect(() => {
     // Check if window is available
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       setIsMobile(window.innerWidth <= 991);
-      
+
       const handleResize = () => {
         setIsMobile(window.innerWidth <= 991);
       };
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }
   }, []);
 
   useEffect(() => {
     // Scroll effect
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const handleScroll = () => {
-        const header = document.querySelector(".header");
+        const header = document.querySelector('.header');
         if (header && window.pageYOffset > (header as HTMLElement).offsetTop) {
-          header.classList.add("fixed-top");
-          header.classList.remove("navbar");
+          header.classList.add('fixed-top');
+          header.classList.remove('navbar');
         } else {
-          header?.classList.remove("fixed-top");
-          header?.classList.add("navbar");
+          header?.classList.remove('fixed-top');
+          header?.classList.add('navbar');
         }
       };
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
     }
   }, []);
 
@@ -375,11 +375,11 @@ const NavbarComponent = () => {
     // Toggle menu transition
     if (menuRef.current) {
       if (isMenuOpen) {
-        menuRef.current.style.transition = "transform 0.5s ease";
-        menuRef.current.classList.add("open");
+        menuRef.current.style.transition = 'transform 0.5s ease';
+        menuRef.current.classList.add('open');
       } else {
-        menuRef.current.style.transition = "transform 0.5s ease";
-        menuRef.current.classList.remove("open");
+        menuRef.current.style.transition = 'transform 0.5s ease';
+        menuRef.current.classList.remove('open');
       }
     }
   }, [isMenuOpen]);
@@ -413,7 +413,7 @@ const NavbarComponent = () => {
               <button type="button" className="close_menu_btn" aria-label="Close menu" onClick={toggleMenu}></button>
             </div>
             <ul>
-              <li className={`menu-item dropdown ${activeDropdown === 0 ? "active" : ""}`}>
+              <li className={`menu-item dropdown ${activeDropdown === 0 ? 'active' : ''}`}>
                 <Link href="#" className="a" onClick={() => handleDropdownClick(0)}>
                   Peta tematik
                 </Link>
@@ -444,7 +444,7 @@ const NavbarComponent = () => {
                 </ul>
               </li>
               <li className="menu-item">
-                <Link className="a" onClick={() => setIsMenuOpen(false)} href="/berita">
+                <Link className="a" onClick={() => setIsMenuOpen(false)} href="/kabupaten">
                   Kota/Kabupaten
                 </Link>
               </li>
@@ -481,6 +481,5 @@ const NavbarComponent = () => {
     </Styledheader>
   );
 };
-
 
 export default NavbarComponent;
