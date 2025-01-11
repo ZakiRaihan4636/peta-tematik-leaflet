@@ -335,10 +335,10 @@ const Styledheader = styled.div`
 `;
 
 const NavbarComponent = () => {
-  const menuRef = useRef(null);
+  const menuRef = useRef<HTMLUListElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 991);
 
   useEffect(() => {
     const handleResize = () => {
@@ -351,12 +351,12 @@ const NavbarComponent = () => {
   useEffect(() => {
     const handleScroll = () => {
       const header = document.querySelector('.header');
-      if (window.pageYOffset > header.offsetTop) {
+      if (header && window.pageYOffset > (header as HTMLElement).offsetTop) {
         header.classList.add('fixed-top');
         header.classList.remove('navbar');
       } else {
-        header.classList.remove('fixed-top');
-        header.classList.add('navbar');
+        header?.classList.remove('fixed-top');
+        header?.classList.add('navbar');
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -364,12 +364,14 @@ const NavbarComponent = () => {
   }, []);
 
   useEffect(() => {
-    if (isMenuOpen) {
-      menuRef.current.style.transition = 'transform 0.5s ease';
-      menuRef.current.classList.add('open');
-    } else {
-      menuRef.current.style.transition = 'transform 0.5s ease';
-      menuRef.current.classList.remove('open');
+    if (menuRef.current) {
+      if (isMenuOpen) {
+        menuRef.current.style.transition = 'transform 0.5s ease';
+        menuRef.current.classList.add('open');
+      } else {
+        menuRef.current.style.transition = 'transform 0.5s ease';
+        menuRef.current.classList.remove('open');
+      }
     }
   }, [isMenuOpen]);
 
@@ -377,7 +379,7 @@ const NavbarComponent = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleDropdownClick = (index) => {
+  const handleDropdownClick = (index: number) => {
     if (isMobile) {
       setActiveDropdown(activeDropdown === index ? null : index);
     }
@@ -462,11 +464,11 @@ const NavbarComponent = () => {
             <Link aria-current="page" target="_blank" href="/" className="daftar">
               Hubungi Kami
             </Link>
-            <span type="button" className="open_menu_btn" aria-label="Open menu" onClick={toggleMenu}>
+            <button type="button" className="open_menu_btn" aria-label="Open menu" onClick={toggleMenu}>
               <span className="line line1"></span>
               <span className="line line2"></span>
               <span className="line line3"></span>
-            </span>
+            </button>
           </div>
         </div>
       </header>
