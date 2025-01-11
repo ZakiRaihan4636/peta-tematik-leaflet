@@ -5,7 +5,8 @@ import dynamic from 'next/dynamic';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
+import 'leaflet-defaulticon-compatibility';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 interface Kecamatan {
   id: number;
   name: string;
@@ -56,10 +57,23 @@ const KecamatanPage: React.FC = () => {
   return (
     <div>
       <h1>Peta Kecamatan</h1>
-      <MapContainer center={[-8.65, 115.2]} zoom={10} style={{ height: '500px', width: '100%' }}>
-        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <MapContainer
+        center={[-8.65, 115.2]}
+        zoom={10}
+        style={{ height: '500px', width: '100%' }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
         {kecamatanData.map((kecamatan) => (
-          <Marker key={kecamatan.id} position={[kecamatan.latitude, kecamatan.longitude] as LatLngExpression} alt={kecamatan.name}>
+          <Marker
+            key={kecamatan.id}
+            position={
+              [kecamatan.latitude, kecamatan.longitude] as LatLngExpression
+            }
+            alt={kecamatan.name}
+          >
             <Popup>
               <span>{kecamatan.name}</span>
             </Popup>
