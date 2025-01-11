@@ -1,11 +1,11 @@
-import LayoutPage from './layout/page';
+import ContainerPage from '@/components/Container';
 
 export default function Home() {
   return (
-    <>
-      <LayoutPage>
-        <h1>ini isi website</h1>
-      </LayoutPage>
-    </>
+    <div>
+      <ContainerPage>
+        <section id="beranda">ini beranda</section>
+      </ContainerPage>
+    </div>
   );
 }
