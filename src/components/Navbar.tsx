@@ -338,13 +338,16 @@ const NavbarComponent = () => {
   const menuRef = useRef<HTMLUListElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 991);
+  const [isMobile, setIsMobile] = useState<boolean>(
+    typeof window !== 'undefined' ? window.innerWidth <= 991 : false
+  );
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
     };
-    window.addEventListener('resize', handleResize);
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    typeof window !== 'undefined' && window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
