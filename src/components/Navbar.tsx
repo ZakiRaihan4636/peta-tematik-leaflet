@@ -335,41 +335,52 @@ const Styledheader = styled.div`
 `;
 
 const NavbarComponent = () => {
-  const menuRef = useRef(null);
+  const menuRef = useRef<HTMLUListElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleResize = () => {
+    // Check if window is available
+    if (typeof window !== "undefined") {
       setIsMobile(window.innerWidth <= 991);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+      
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 991);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const header = document.querySelector('.header');
-      if (window.pageYOffset > header.offsetTop) {
-        header.classList.add('fixed-top');
-        header.classList.remove('navbar');
+    // Scroll effect
+    if (typeof window !== "undefined") {
+      const handleScroll = () => {
+        const header = document.querySelector(".header");
+        if (header && window.pageYOffset > (header as HTMLElement).offsetTop) {
+          header.classList.add("fixed-top");
+          header.classList.remove("navbar");
+        } else {
+          header?.classList.remove("fixed-top");
+          header?.classList.add("navbar");
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Toggle menu transition
+    if (menuRef.current) {
+      if (isMenuOpen) {
+        menuRef.current.style.transition = "transform 0.5s ease";
+        menuRef.current.classList.add("open");
       } else {
-        header.classList.remove('fixed-top');
-        header.classList.add('navbar');
+        menuRef.current.style.transition = "transform 0.5s ease";
+        menuRef.current.classList.remove("open");
       }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      menuRef.current.style.transition = 'transform 0.5s ease';
-      menuRef.current.classList.add('open');
-    } else {
-      menuRef.current.style.transition = 'transform 0.5s ease';
-      menuRef.current.classList.remove('open');
     }
   }, [isMenuOpen]);
 
@@ -377,7 +388,7 @@ const NavbarComponent = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleDropdownClick = (index) => {
+  const handleDropdownClick = (index: number) => {
     if (isMobile) {
       setActiveDropdown(activeDropdown === index ? null : index);
     }
@@ -389,7 +400,6 @@ const NavbarComponent = () => {
         <div className="container">
           <div className="logo">
             <Link href="/" className="a" onClick={() => setIsMenuOpen(false)}>
-              {/* <img src={LogoWebsite} alt="Logo yayasan" /> */}
               <h1>logo</h1>
             </Link>
           </div>
@@ -397,19 +407,17 @@ const NavbarComponent = () => {
             <div className="head">
               <div className="logo">
                 <Link href="/" className="a" onClick={() => setIsMenuOpen(false)}>
-                  {/* <img src={LogoYayasan} alt="Logo yayasan" /> */}
                   <h1>logo</h1>
                 </Link>
               </div>
               <button type="button" className="close_menu_btn" aria-label="Close menu" onClick={toggleMenu}></button>
             </div>
             <ul>
-              <li className={`menu-item dropdown ${activeDropdown === 0 ? 'active' : ''}`}>
+              <li className={`menu-item dropdown ${activeDropdown === 0 ? "active" : ""}`}>
                 <Link href="#" className="a" onClick={() => handleDropdownClick(0)}>
                   Peta tematik
                 </Link>
                 <i onClick={() => handleDropdownClick(0)}>
-                  {' '}
                   <ChevronDown />
                 </i>
                 <ul className="submenu">
@@ -462,16 +470,17 @@ const NavbarComponent = () => {
             <Link aria-current="page" target="_blank" href="/" className="daftar">
               Hubungi Kami
             </Link>
-            <span type="button" className="open_menu_btn" aria-label="Open menu" onClick={toggleMenu}>
+            <button type="button" className="open_menu_btn" aria-label="Open menu" onClick={toggleMenu}>
               <span className="line line1"></span>
               <span className="line line2"></span>
               <span className="line line3"></span>
-            </span>
+            </button>
           </div>
         </div>
       </header>
     </Styledheader>
   );
 };
+
 
 export default NavbarComponent;

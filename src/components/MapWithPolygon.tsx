@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'; // App Router menggunakan client component untuk React-Leaflet
 
 import React, { useEffect, useState } from 'react';
