@@ -338,42 +338,48 @@ const NavbarComponent = () => {
   const menuRef = useRef<HTMLUListElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState<boolean>(
-    typeof window !== 'undefined' ? window.innerWidth <= 991 : false
-  );
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleResize = () => {
+    // Check if window is available
+    if (typeof window !== "undefined") {
       setIsMobile(window.innerWidth <= 991);
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    typeof window !== 'undefined' && window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+      
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 991);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const header = document.querySelector('.header');
-      if (header && window.pageYOffset > (header as HTMLElement).offsetTop) {
-        header.classList.add('fixed-top');
-        header.classList.remove('navbar');
-      } else {
-        header?.classList.remove('fixed-top');
-        header?.classList.add('navbar');
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Scroll effect
+    if (typeof window !== "undefined") {
+      const handleScroll = () => {
+        const header = document.querySelector(".header");
+        if (header && window.pageYOffset > (header as HTMLElement).offsetTop) {
+          header.classList.add("fixed-top");
+          header.classList.remove("navbar");
+        } else {
+          header?.classList.remove("fixed-top");
+          header?.classList.add("navbar");
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
   }, []);
 
   useEffect(() => {
+    // Toggle menu transition
     if (menuRef.current) {
       if (isMenuOpen) {
-        menuRef.current.style.transition = 'transform 0.5s ease';
-        menuRef.current.classList.add('open');
+        menuRef.current.style.transition = "transform 0.5s ease";
+        menuRef.current.classList.add("open");
       } else {
-        menuRef.current.style.transition = 'transform 0.5s ease';
-        menuRef.current.classList.remove('open');
+        menuRef.current.style.transition = "transform 0.5s ease";
+        menuRef.current.classList.remove("open");
       }
     }
   }, [isMenuOpen]);
@@ -394,7 +400,6 @@ const NavbarComponent = () => {
         <div className="container">
           <div className="logo">
             <Link href="/" className="a" onClick={() => setIsMenuOpen(false)}>
-              {/* <img src={LogoWebsite} alt="Logo yayasan" /> */}
               <h1>logo</h1>
             </Link>
           </div>
@@ -402,19 +407,17 @@ const NavbarComponent = () => {
             <div className="head">
               <div className="logo">
                 <Link href="/" className="a" onClick={() => setIsMenuOpen(false)}>
-                  {/* <img src={LogoYayasan} alt="Logo yayasan" /> */}
                   <h1>logo</h1>
                 </Link>
               </div>
               <button type="button" className="close_menu_btn" aria-label="Close menu" onClick={toggleMenu}></button>
             </div>
             <ul>
-              <li className={`menu-item dropdown ${activeDropdown === 0 ? 'active' : ''}`}>
+              <li className={`menu-item dropdown ${activeDropdown === 0 ? "active" : ""}`}>
                 <Link href="#" className="a" onClick={() => handleDropdownClick(0)}>
                   Peta tematik
                 </Link>
                 <i onClick={() => handleDropdownClick(0)}>
-                  {' '}
                   <ChevronDown />
                 </i>
                 <ul className="submenu">
@@ -478,5 +481,6 @@ const NavbarComponent = () => {
     </Styledheader>
   );
 };
+
 
 export default NavbarComponent;
