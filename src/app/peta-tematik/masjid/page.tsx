@@ -59,7 +59,11 @@ const ClientSideMap = () => {
   }, []);
 
   if (!mounted || loading) {
-    return <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>;
+    return (
+      <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">
+        Loading map...
+      </div>
+    );
   }
 
   if (error) {
@@ -70,15 +74,25 @@ const ClientSideMap = () => {
     );
   }
 
-  const MapWithNoSSR = dynamic(() => import('../../../components/MapWithPolygon'), {
-    ssr: false,
-    loading: () => <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>,
-  });
+  const MapWithNoSSR = dynamic(
+    () => import('../../../components/MapWithPolygon'),
+    {
+      ssr: false,
+      loading: () => (
+        <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">
+          Loading map...
+        </div>
+      ),
+    }
+  );
 
   return (
     <div>
       {/* Komponen Map dengan data yang sudah diambil */}
-      <MapWithNoSSR data={masjid} />
+      <MapWithNoSSR
+        data={masjid}
+        title={'Peta Total Masjid di Provinsi Bali'}
+      />
     </div>
   );
 };
