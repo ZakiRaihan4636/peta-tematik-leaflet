@@ -21,6 +21,7 @@ export async function GET() {
       totalPrivateCollege: regency.total_private_college,
       totalTourism: regency.total_tourism,
       totalTouristDestination: regency.total_destination,
+      type_poligon: regency.polygons[0].type,
       polygons: regency.polygons.map((polygon) => JSON.parse(polygon.polygon)),
     }));
 
@@ -36,7 +37,7 @@ export async function GET() {
         },
       }
     );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return new Response(
       JSON.stringify({ error: 'Failed to fetch tematic data' }),

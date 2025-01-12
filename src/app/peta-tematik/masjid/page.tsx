@@ -4,83 +4,70 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import ContainerPage from '@/components/Container';
 
-const staticGeoJSON = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Provinsi Bali',
-        value: 4200000, // Contoh populasi atau nilai lainnya
-      },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [114.4304, -8.7502], // Barat laut
-            [114.798, -8.8909], // Barat daya
-            [115.2069, -8.9303], // Selatan
-            [115.6682, -8.5006], // Timur
-            [115.3188, -8.2706], // Utara
-            [114.895, -8.2761], // Barat laut
-            [114.4304, -8.7502], // Tutup poligon
-          ],
-        ],
-      },
-    },
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Provinsi Jawa Timur',
-        value: 40000000, // Contoh populasi atau nilai lainnya
-      },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [111.5432, -8.3052], // Barat daya
-            [112.0535, -8.2231], // Selatan
-            [114.0313, -8.0689], // Timur
-            [114.3688, -7.6718], // Timur laut
-            [112.9011, -6.9515], // Utara
-            [111.875, -7.6535], // Barat laut
-            [111.5432, -8.3052], // Tutup poligon
-          ],
-        ],
-      },
-    },
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Provinsi Nusa Tenggara Barat',
-        value: 5200000, // Contoh populasi atau nilai lainnya
-      },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [116.0195, -9.1235], // Barat daya
-            [116.5109, -9.2121], // Selatan
-            [117.2764, -8.8685], // Timur
-            [117.1909, -8.3801], // Timur laut
-            [116.6511, -8.2131], // Barat laut
-            [116.0195, -9.1235], // Tutup poligon
-          ],
-        ],
-      },
-    },
-  ],
-};
+interface LocationData {
+  id: number;
+  name: string;
+  totalPopulation: number;
+  totalHospital: number;
+  totalMosque: number;
+  totalPrivateCollege: number;
+  totalTourism: number;
+  totalTouristDestination: number;
+  polygons: number[][][];
+}
 
 const ClientSideMap = () => {
   const [mounted, setMounted] = useState(false);
+  const [masjid, setMasjid] = useState<LocationData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fungsi untuk mengambil data masjid dari API
+  const getDataMasjid = async (): Promise<LocationData[]> => {
+    try {
+      const response = await fetch('http://localhost:3000/api/tematic-data');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      return responseData.data;
+    } catch (error) {
+      console.error('Error fetching masjid data:', error);
+      setError('Error fetching masjid data');
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const masjidData = await getDataMasjid();
+        setMasjid(masjidData);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
+  if (!mounted || loading) {
     return <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">
+        <p>{error}</p>
+      </div>
+    );
   }
 
   const MapWithNoSSR = dynamic(() => import('../../../components/MapWithPolygon'), {
@@ -90,12 +77,14 @@ const ClientSideMap = () => {
 
   return (
     <div>
-      <MapWithNoSSR geojsonData={staticGeoJSON} title="Peta Masjid" />
+      {/* Komponen Map dengan data yang sudah diambil */}
+      <MapWithNoSSR data={masjid} title={'Peta Total Masjid di Provinsi Bali'} />
     </div>
   );
 };
 
-const MasjidPage = () => {
+// Halaman utama yang merender ClientSideMap
+export default function MasjidPage() {
   return (
     <div className="container mx-auto p-4">
       <ContainerPage>
@@ -103,6 +92,4 @@ const MasjidPage = () => {
       </ContainerPage>
     </div>
   );
-};
-
-export default MasjidPage;
+}

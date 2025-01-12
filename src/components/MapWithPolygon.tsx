@@ -1,94 +1,99 @@
-import { MapContainer, TileLayer, Polygon, Tooltip } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import { useState } from 'react';
+'use client';
 
-interface Feature {
-  geometry: {
-    type: string;
-    coordinates: number[][][];
-  };
-  properties: {
-    name: string;
-    value: number;
-  };
+import { MapContainer, TileLayer, GeoJSON, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
+
+interface LocationData {
+  id: number;
+  name: string;
+  totalPopulation: number;
+  totalHospital: number;
+  totalMosque: number;
+  totalPrivateCollege: number;
+  totalTourism: number;
+  totalTouristDestination: number;
+  type_poligon: string; // Polygon or MultiPolygon
+  polygons: number[][] | number[][][]; // Single Polygon or MultiPolygon
 }
 
 interface MapComponentProps {
-  geojsonData: {
-    type: string;
-    features: Feature[];
-  };
+  data: LocationData[];
   title: string;
 }
 
-const MapWithPolygon: React.FC<MapComponentProps> = ({ geojsonData, title }) => {
-  const [highlightedLayer, setHighlightedLayer] = useState<any | null>(null);
+const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
+  // Mengonversi data menjadi format GeoJSON yang sesuai
+  const geoJsonFeatures = data.map((regency) => ({
+    type: 'Feature',
+    properties: {
+      name: regency.name,
+      totalPopulation: regency.totalPopulation,
+      totalHospital: regency.totalHospital,
+      totalMosque: regency.totalMosque,
+      totalPrivateCollege: regency.totalPrivateCollege,
+      totalTourism: regency.totalTourism,
+      type_poligon: regency.type_poligon,
+      totalTouristDestination: regency.totalTouristDestination,
+    },
+    geometry: {
+      type: regency.type_poligon, // bisa Polygon atau MultiPolygon
+      coordinates: regency.polygons[0], // Koordinat untuk Polygon atau MultiPolygon
+    },
+  }));
 
-  const getColor = (value: number) => {
-    return value > 1000000 ? '#800026' : value > 500000 ? '#BD0026' : value > 200000 ? '#E31A1C' : value > 100000 ? '#FC4E2A' : value > 50000 ? '#FD8D3C' : '#FFEDA0';
-  };
-
-  const style = (feature: Feature) => ({
-    fillColor: getColor(feature.properties.value),
-    weight: 2,
-    opacity: 1,
-    color: 'white',
-    dashArray: '3',
-    fillOpacity: 0.7,
-  });
-
-  const highlightFeature = (e: any) => {
-    const layer = e.target;
-    setHighlightedLayer(layer);
-    layer.setStyle({
-      weight: 5,
-      color: '#666',
-      dashArray: '',
-      fillOpacity: 0.7,
-    });
-    layer.bringToFront();
-  };
-
-  const resetHighlight = () => {
-    if (highlightedLayer && highlightedLayer.feature) {
-      highlightedLayer.setStyle(style(highlightedLayer.feature));
-    }
-  };
-
-  const zoomToFeature = (e: any) => {
-    const map = e.target._map;
-    map.fitBounds(e.target.getBounds());
+  const getColor = function (data: number) {
+    return data > 70
+      ? '#E34A33' // Oranye gelap
+      : data > 60
+      ? '#D85C2F' // Oranye medium gelap
+      : data > 50
+      ? '#FD8D3C' // Oranye cerah
+      : data > 40
+      ? '#FDAE61' // Oranye muda
+      : data > 30
+      ? '#FEB24C' // Oranye terang
+      : data > 20
+      ? '#FDBA73' // Oranye lebih terang
+      : data > 10
+      ? '#FEE08B' // Kuning oranye cerah
+      : '#FFFFBF'; // Kuning pudar
   };
 
   return (
-    <div className="map-container">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
-      <MapContainer center={[-8.3629537, 115.1360451]} zoom={13} scrollWheelZoom={true} style={{ height: '500px', width: '100%' }}>
+    <div>
+      <h2 className="text-xl font-semibold ">{title}</h2>
+      <MapContainer
+        center={[-8.3629537, 115.1360205]} // Koordinat tengah peta
+        zoom={9.4}
+        scrollWheelZoom={true}
+        style={{ height: '500px', width: '100%' }}
+      >
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {geojsonData.features.map((feature, index) => {
-          const positions = feature.geometry.coordinates[0].map((coord) => [coord[1], coord[0]]);
-          return (
-            <Polygon
-              key={index}
-              positions={positions}
-              pathOptions={style(feature)}
-              eventHandlers={{
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-                click: zoomToFeature,
-              }}
-            >
-              <Tooltip>
-                <strong>{feature.properties.name}</strong>
-                <br />
-                Value: {feature.properties.value}
-              </Tooltip>
-            </Polygon>
-          );
-        })}
+        <GeoJSON
+          key="Regencies"
+          data={geoJsonFeatures}
+          onEachFeature={(feature, layer) => {
+            layer.bindPopup(
+              `<div>
+                <h3>${feature.properties.name}</h3>
+                <p>Jumlah Masjid: ${feature.properties.totalMosque}</p>
+              </div>`
+            );
+          }}
+          popupOptions={{ autoClose: false }}
+          style={(feature) => ({
+            color: 'blue',
+            weight: 2,
+            opacity: 1,
+            fillColor: getColor(feature.properties.totalMosque),
+            fillOpacity: 0.5,
+          })}
+        ></GeoJSON>
       </MapContainer>
     </div>
   );
 };
 
-export default MapWithPolygon;
+export default MapComponent;
