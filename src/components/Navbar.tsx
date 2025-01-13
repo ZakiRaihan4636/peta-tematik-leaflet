@@ -12,7 +12,7 @@ const Styledheader = styled.div`
     width: 100%;
     border-bottom: 1px solid #f8fafc;
     z-index: 99;
-    background: #1a1a1a;
+    background: #1f2937;
     display: block;
   }
 
@@ -29,7 +29,7 @@ const Styledheader = styled.div`
     align-items: center;
   }
   .header .logo h1 {
-    color: #f8fafc;
+    color: #10b981;
     font-size: 2.5rem;
     font-weight: 700;
   }
@@ -49,12 +49,13 @@ const Styledheader = styled.div`
     display: inline-block;
   }
   .header .menu ul li a:hover {
-    opacity: 0.5;
+    /* opacity: 0.5; */
+    color: #10b981;
   }
   .header .menu .a {
     text-decoration: none;
-    text-transform: uppercase;
-    font-size: 14px;
+    /* text-transform: uppercase; */
+    font-size: 15px;
     color: #f8fafc;
     font-weight: 600;
     line-height: 1.5;
@@ -75,6 +76,7 @@ const Styledheader = styled.div`
   .header .menu li:hover > .submenu,
   .header .menu .dropdown.active > .submenu {
     opacity: 1;
+    color: #1f2937;
     transform: none;
     visibility: visible;
     transition: all 0.5s ease;
@@ -101,15 +103,15 @@ const Styledheader = styled.div`
     position: absolute;
     top: 100%;
     left: 0;
-    width: 200px;
+    width: 222px;
     padding: 15px 0;
-    background-color: #2f7f6c;
+    background-color: #1f2937;
     z-index: 9999;
     transform-origin: top;
     transform: scaleY(0);
     visibility: hidden;
     opacity: 0;
-    border: 1px solid #2f7f6c;
+    border: 1px solid #10b981;
   }
 
   .header .menu .submenu .a {
@@ -123,7 +125,7 @@ const Styledheader = styled.div`
   }
 
   .header .menu .submenu span {
-    background-image: linear-gradient(hsl(45, 100%, 85%), #2f7f6c);
+    background-image: linear-gradient(hsl(45, 100%, 85%), #10b981);
     background-repeat: no-repeat;
     background-size: 0 1px;
     background-position: 0 100%;
@@ -171,7 +173,7 @@ const Styledheader = styled.div`
     text-decoration: none;
     font-weight: 700;
     /* border: 3px solid var(--button-secondary-color); */
-    background-color: #2f7f6c;
+    background-color: #10b981;
     padding: 0.5rem 2rem;
   }
 
@@ -189,11 +191,12 @@ const Styledheader = styled.div`
       top: 0;
       width: 320px;
       height: 100%;
-      background: #2f7f6c;
+      background: #1f2937;
       padding: 20px;
       overflow-y: auto;
       z-index: 5;
       transform: translateX(100%);
+      z-index: 9999;
     }
 
     .header .menu.open {
@@ -247,11 +250,11 @@ const Styledheader = styled.div`
       margin-right: 0;
     }
     .header .menu li {
-      border-bottom: 1px solid #2f7f6c;
+      border-bottom: 1px solid #10b981;
     }
     .header .menu .submenu .submenu-tentang,
     .menu .submenu .submenu-pendidikan {
-      border-bottom: 1px solid #2f7f6c;
+      border-bottom: 1px solid #10b981;
       width: 100%;
     }
 
@@ -422,13 +425,23 @@ const NavbarComponent = () => {
                 </i>
                 <ul className="submenu">
                   <li className="submenu-tentang">
+                    <Link href="/peta-tematik/populasi" className="a" onClick={() => setIsMenuOpen(false)}>
+                      <span>Populasi</span>
+                    </Link>
+                  </li>
+                  <li className="submenu-tentang">
                     <Link href="/peta-tematik/masjid" className="a" onClick={() => setIsMenuOpen(false)}>
                       <span>Masjid</span>
                     </Link>
                   </li>
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/universitas" className="a" onClick={() => setIsMenuOpen(false)}>
-                      <span>Universitas</span>
+                    <Link href="/peta-tematik/perguruan-tinggi" className="a" onClick={() => setIsMenuOpen(false)}>
+                      <span>Perguruan Tinggi</span>
+                    </Link>
+                  </li>
+                  <li className="submenu-tentang">
+                    <Link href="/peta-tematik/rumah-sakit" className="a" onClick={() => setIsMenuOpen(false)}>
+                      <span>Rumah sakit</span>
                     </Link>
                   </li>
                   <li className="submenu-tentang">
@@ -437,8 +450,8 @@ const NavbarComponent = () => {
                     </Link>
                   </li>
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/wisata" className="a" onClick={() => setIsMenuOpen(false)}>
-                      <span>Wisata</span>
+                    <Link href="/peta-tematik/destinasi-wisata" className="a" onClick={() => setIsMenuOpen(false)}>
+                      <span>Destinasi Wisata</span>
                     </Link>
                   </li>
                 </ul>

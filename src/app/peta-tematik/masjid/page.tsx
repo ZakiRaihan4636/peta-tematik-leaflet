@@ -3,27 +3,16 @@
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import ContainerPage from '@/components/Container';
-
-interface LocationData {
-  id: number;
-  name: string;
-  totalPopulation: number;
-  totalHospital: number;
-  totalMosque: number;
-  totalPrivateCollege: number;
-  totalTourism: number;
-  totalTouristDestination: number;
-  polygons: number[][][];
-}
+import Title from '@/components/Title';
 
 const ClientSideMap = () => {
   const [mounted, setMounted] = useState(false);
-  const [masjid, setMasjid] = useState<LocationData[]>([]);
+  const [masjid, setMasjid] = useState<[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Fungsi untuk mengambil data masjid dari API
-  const getDataMasjid = async (): Promise<LocationData[]> => {
+  const getDataMasjid = async (): Promise<[]> => {
     try {
       const response = await fetch('http://localhost:3000/api/tematic-data');
       if (!response.ok) {
@@ -78,7 +67,7 @@ const ClientSideMap = () => {
   return (
     <div>
       {/* Komponen Map dengan data yang sudah diambil */}
-      <MapWithNoSSR data={masjid} title={'Peta Total Masjid di Provinsi Bali'} />
+      <MapWithNoSSR data={masjid} />
     </div>
   );
 };
@@ -88,6 +77,7 @@ export default function MasjidPage() {
   return (
     <div className="container mx-auto p-4">
       <ContainerPage>
+        <Title title="Peta Tematik" title1="Masjid" deskripsi="Peta Total Masjid di Provinsi Bali" />
         <ClientSideMap />
       </ContainerPage>
     </div>

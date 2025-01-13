@@ -1,7 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  compiler: {
+    styledComponents: true, // Aktifkan SSR untuk styled-components
+  },
 };
 
 export default nextConfig;

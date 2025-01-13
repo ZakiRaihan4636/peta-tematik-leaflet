@@ -1,34 +1,71 @@
-import { useMap } from 'react-leaflet';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Legend = ({ getColor }: { getColor: (value: number) => string }) => {
-  const map = useMap();
+interface LegendItem {
+  name: string;
+  totalMosque: number;
+}
+
+const Legend: React.FC<{ dataMasjid: any }> = ({ dataMasjid }) => {
+  const [legendData, setLegendData] = useState<LegendItem[]>([]);
+
+  // Fungsi untuk menentukan warna berdasarkan nilai
+  const getColor = (totalMosque: number) => {
+    return totalMosque > 70
+      ? '#E34A33' // Oranye gelap
+      : totalMosque > 60
+      ? '#D85C2F' // Oranye medium gelap
+      : totalMosque > 50
+      ? '#FD8D3C' // Oranye cerah
+      : totalMosque > 40
+      ? '#FDAE61' // Oranye muda
+      : totalMosque > 30
+      ? '#FEB24C' // Oranye terang
+      : totalMosque > 20
+      ? '#FDBA73' // Oranye lebih terang
+      : totalMosque > 10
+      ? '#FEE08B' // Kuning oranye cerah
+      : '#FFFFBF'; // Kuning pudar
+  };
+
+  const getLegendData = () => {
+    setLegendData(dataMasjid);
+  };
 
   useEffect(() => {
-    const legend = L.control({ position: 'bottomright' });
+    getLegendData();
+  }, []);
 
-    legend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
-      const grades = [0, 50000, 100000, 200000, 500000, 1000000];
-      let labels = [];
-
-      grades.forEach((grade, index) => {
-        const nextGrade = grades[index + 1];
-        labels.push(`<i style="background:${getColor(grade)}"></i> ${grade}${nextGrade ? `&ndash;${nextGrade}` : '+'}`);
-      });
-
-      div.innerHTML = labels.join('<br>');
-      return div;
-    };
-
-    legend.addTo(map);
-
-    return () => {
-      legend.remove();
-    };
-  }, [map, getColor]);
-
-  return null;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        bottom: '10px',
+        left: '10px',
+        backgroundColor: 'white',
+        padding: '10px',
+        borderRadius: '5px',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+        zIndex: 1000,
+      }}
+    >
+      <h4>Legenda Total Masjid</h4>
+      {legendData.map((item, index) => (
+        <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+          <div
+            style={{
+              width: '20px',
+              height: '20px',
+              backgroundColor: getColor(item.totalMosque),
+              marginRight: '10px',
+            }}
+          ></div>
+          <span>
+            {item.name} : {item.totalMosque}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Legend;

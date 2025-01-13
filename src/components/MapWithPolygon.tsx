@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, GeoJSON, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
+import Legend from './Legend';
 
 interface LocationData {
   id: number;
@@ -20,10 +21,9 @@ interface LocationData {
 
 interface MapComponentProps {
   data: LocationData[];
-  title: string;
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
+const MapWithPolygon: React.FC<MapComponentProps> = ({ data }) => {
   // Mengonversi data menjadi format GeoJSON yang sesuai
   const geoJsonFeatures = data.map((regency) => ({
     type: 'Feature',
@@ -63,12 +63,11 @@ const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold ">{title}</h2>
       <MapContainer
         center={[-8.3629537, 115.1360205]} // Koordinat tengah peta
         zoom={9.4}
         scrollWheelZoom={true}
-        style={{ height: '500px', width: '100%' }}
+        style={{ height: '500px', width: '100%', marginTop: '5px' }}
       >
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <GeoJSON
@@ -84,16 +83,17 @@ const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
           }}
           popupOptions={{ autoClose: false }}
           style={(feature) => ({
-            color: 'blue',
+            color: '#f8fafc',
             weight: 2,
             opacity: 1,
-            fillColor: getColor(feature.properties.totalMosque),
+            fillColor: getColor(feature?.properties.totalMosque),
             fillOpacity: 0.5,
           })}
         ></GeoJSON>
+        <Legend dataMasjid={data} />
       </MapContainer>
     </div>
   );
 };
 
-export default MapComponent;
+export default MapWithPolygon;
