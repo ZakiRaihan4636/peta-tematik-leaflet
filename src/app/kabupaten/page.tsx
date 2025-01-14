@@ -22,7 +22,7 @@ const ClientSideMap = () => {
 
   const getDataKabupaten = async (): Promise<LocationData[]> => {
     try {
-      const response = await fetch('http://localhost:3000/api/regencies'); // Replace with your API endpoint for Kabupaten
+      const response = await fetch('/api/regencies'); // Replace with your API endpoint for Kabupaten
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -56,7 +56,11 @@ const ClientSideMap = () => {
   }, []);
 
   if (!mounted || loading) {
-    return <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>;
+    return (
+      <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">
+        Loading map...
+      </div>
+    );
   }
 
   if (error) {
@@ -69,7 +73,11 @@ const ClientSideMap = () => {
 
   const MapWithNoSSR = dynamic(() => import('../../components/MapComponent'), {
     ssr: false,
-    loading: () => <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>,
+    loading: () => (
+      <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">
+        Loading map...
+      </div>
+    ),
   });
 
   return (

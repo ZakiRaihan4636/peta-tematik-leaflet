@@ -14,7 +14,7 @@ const ClientSideMap = () => {
   // Fungsi untuk mengambil data rumah dari API
   const getDataTuris = async (): Promise<[]> => {
     try {
-      const response = await fetch('http://localhost:3000/api/tematic-data');
+      const response = await fetch('/api/tematic-data');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
