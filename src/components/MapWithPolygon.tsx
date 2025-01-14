@@ -1,6 +1,7 @@
 'use client';
 
 import { MapContainer, TileLayer, GeoJSON, Popup } from 'react-leaflet';
+import { FeatureCollection } from 'geojson'; // Pastikan Anda mengimpor tipe yang benar jika menggunakan TypeScript
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
@@ -25,23 +26,28 @@ interface MapComponentProps {
 
 const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
   // Mengonversi data menjadi format GeoJSON yang sesuai
-  const geoJsonFeatures = data.map((regency) => ({
-    type: 'Feature',
-    properties: {
-      name: regency.name,
-      totalPopulation: regency.totalPopulation,
-      totalHospital: regency.totalHospital,
-      totalMosque: regency.totalMosque,
-      totalPrivateCollege: regency.totalPrivateCollege,
-      totalTourism: regency.totalTourism,
-      type_poligon: regency.type_poligon,
-      totalTouristDestination: regency.totalTouristDestination,
-    },
-    geometry: {
-      type: regency.type_poligon, // bisa Polygon atau MultiPolygon
-      coordinates: regency.polygons[0], // Koordinat untuk Polygon atau MultiPolygon
-    },
-  }));
+  const geoJsonFeatures: FeatureCollection = {
+    type: 'FeatureCollection', // Pastikan ini adalah 'FeatureCollection'
+    features: data.map((regency: any) => ({
+      type: 'Feature', // Pastikan ini adalah 'Feature'
+      properties: {
+        name: regency.name,
+        totalPopulation: regency.totalPopulation,
+        totalHospital: regency.totalHospital,
+        totalMosque: regency.totalMosque,
+        totalPrivateCollege: regency.totalPrivateCollege,
+        totalTourism: regency.totalTourism,
+        type_poligon: regency.type_poligon,
+        totalTouristDestination: regency.totalTouristDestination,
+      },
+      geometry: {
+        type: regency.type_poligon, // Pastikan ini adalah 'Polygon' atau 'MultiPolygon'
+        coordinates: regency.polygons, // Pastikan ini adalah array dari koordinat yang benar
+      },
+    })),
+  };
+
+  // Sekarang geoJsonFeatures adalah objek GeoJSON yang valid
 
   const getColor = function (data: number) {
     return data > 70
@@ -85,8 +91,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
               </div>`
             );
           }}
-          popupOptions={{ autoClose: false }}
-          style={(feature) => ({
+          style={(feature: any) => ({
             color: 'blue',
             weight: 2,
             opacity: 1,
