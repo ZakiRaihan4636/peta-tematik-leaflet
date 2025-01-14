@@ -22,7 +22,7 @@ const ClientSideMap = () => {
 
   const getDataKecamatan = async (): Promise<LocationData[]> => {
     try {
-      const response = await fetch('http://localhost:3000/api/districts'); // API endpoint untuk Kecamatan
+      const response = await fetch('/api/districts'); // API endpoint untuk Kecamatan
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
