@@ -48,11 +48,7 @@ const ClientSideMap = () => {
   }, []);
 
   if (!mounted || loading) {
-    return (
-      <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">
-        Loading map...
-      </div>
-    );
+    return <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>;
   }
 
   if (error) {
@@ -63,17 +59,10 @@ const ClientSideMap = () => {
     );
   }
 
-  const MapWithNoSSR = dynamic(
-    () => import('../../../components/MapWithPolygon'),
-    {
-      ssr: false,
-      loading: () => (
-        <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">
-          Loading map...
-        </div>
-      ),
-    }
-  );
+  const MapWithNoSSR = dynamic(() => import('../../../components/MapWithPolygon'), {
+    ssr: false,
+    loading: () => <div className="h-[500px] w-full flex items-center justify-center bg-gray-100">Loading map...</div>,
+  });
 
   return (
     <div>
@@ -88,11 +77,7 @@ export default function MasjidPage() {
   return (
     <div className="container mx-auto p-4">
       <ContainerPage>
-        <Title
-          title="Peta Tematik"
-          title1="Masjid"
-          deskripsi="Peta Total Masjid di Provinsi Bali"
-        />
+        <Title title="Peta Tematik" title1="Masjid" deskripsi="Peta Total Masjid di Provinsi Bali" />
         <ClientSideMap />
       </ContainerPage>
     </div>

@@ -156,7 +156,7 @@ const dataTeam = [
   },
   {
     id: 4,
-    name: 'Anisa Maulida',
+    name: 'Annisa Maulida',
     img: anisaImage,
     role: 'Project Manager',
     desc: 'Mengelola tim dan memastikan proyek selesai tepat waktu.',

@@ -5,6 +5,7 @@ import { FeatureCollection } from 'geojson'; // Pastikan Anda mengimpor tipe yan
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
+import Legend from './Legend';
 
 interface LocationData {
   id: number;
@@ -76,10 +77,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
         scrollWheelZoom={true}
         style={{ height: '500px', width: '100%' }}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <GeoJSON
           key="Regencies"
           data={geoJsonFeatures}
@@ -99,6 +97,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
             fillOpacity: 0.5,
           })}
         ></GeoJSON>
+        <Legend dataMasjid={data} />
       </MapContainer>
     </div>
   );
