@@ -133,35 +133,44 @@ const StyledHome = styled.div`
 
 export default function Home() {
   return (
-    <StyledHome>
-      <ContainerPage>
-        {/* Hero Section */}
-        <section className="hero">
-          <div className="hero-content">
-            <h1>Peta Tematik Pulau Bali</h1>
-            <p>
-              Peta tematik Pulau Bali dirancang untuk memberikan gambaran komprehensif tentang berbagai data penting yang mencakup jumlah turis, destinasi wisata, populasi, masjid, sekolah tinggi, serta pembagian administratif hingga
-              tingkat kabupaten dan kecamatan.
-            </p>
-            <p>Peta ini mengintegrasikan data yang akurat dan terkini, sehingga menjadi alat yang ideal untuk penelitian, perencanaan pembangunan, atau sekadar menambah wawasan Anda tentang keindahan dan potensi Pulau Bali.</p>
-            <button
-              style={{
-                backgroundColor: '#10b981',
-                color: '#ffffff',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              Get Started
-            </button>
-          </div>
-          <div className="hero-image">
-            <Image src={heroImage} alt="Hero" />
-          </div>
-        </section>
-      </ContainerPage>
-    </StyledHome>
+    <div>
+      <StyledHome>
+        <ContainerPage>
+          {/* Hero Section */}
+          <section className="hero">
+            <div className="hero-content">
+              <h1>Peta Tematik Pulau Bali</h1>
+              <p>
+                Peta tematik Pulau Bali dirancang untuk memberikan gambaran
+                komprehensif tentang berbagai data penting yang mencakup jumlah
+                turis, destinasi wisata, populasi, masjid, sekolah tinggi, serta
+                pembagian administratif hingga tingkat kabupaten dan kecamatan.
+              </p>
+              <p>
+                Peta ini mengintegrasikan data yang akurat dan terkini, sehingga
+                menjadi alat yang ideal untuk penelitian, perencanaan
+                pembangunan, atau sekadar menambah wawasan Anda tentang
+                keindahan dan potensi Pulau Bali.
+              </p>
+              <button
+                style={{
+                  backgroundColor: '#10b981',
+                  color: '#ffffff',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '0.5rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Get Started
+              </button>
+            </div>
+            <div className="hero-image">
+              <Image src={heroImage} alt="Hero" />
+            </div>
+          </section>
+        </ContainerPage>
+      </StyledHome>
+    </div>
   );
 }

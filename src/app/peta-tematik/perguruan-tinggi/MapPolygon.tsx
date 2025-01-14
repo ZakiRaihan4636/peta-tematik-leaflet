@@ -26,18 +26,18 @@ interface MapComponentProps {
 }
 
 const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
- const geoJsonFeatures: FeatureCollection = {
+  const geoJsonFeatures: FeatureCollection = {
     type: 'FeatureCollection', // Pastikan ini adalah 'FeatureCollection'
     features: data.map((regency: any) => ({
       type: 'Feature', // Pastikan ini adalah 'Feature'
       properties: {
         name: regency.name,
         type_poligon: regency.type_poligon,
-        totalTouristDestination: regency.totalTouristDestination,
+        totalPrivateCollege: regency.totalPrivateCollege,
       },
       geometry: {
         type: regency.type_poligon, // Pastikan ini adalah 'Polygon' atau 'MultiPolygon'
-        coordinates: regency.polygons, // Pastikan ini adalah array dari koordinat yang benar
+        coordinates: regency.polygons[0], // Pastikan ini adalah array dari koordinat yang benar
       },
     })),
   };
@@ -66,7 +66,10 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
         scrollWheelZoom={true}
         style={{ height: '500px', width: '100%', marginTop: '5px' }}
       >
-        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
         <GeoJSON
           key="Regencies"
           data={geoJsonFeatures}

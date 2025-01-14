@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import Legend from './Legend';
+import { FeatureCollection } from 'geojson';
 
 interface LocationData {
   id: number;
@@ -19,19 +20,21 @@ interface MapComponentProps {
 }
 
 const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
-  // Mengonversi data menjadi format GeoJSON yang sesuai
-  const geoJsonFeatures = data.map((regency) => ({
-    type: 'Feature',
-    properties: {
-      name: regency.name,
-      totalPopulation: regency.totalPopulation,
-      type_poligon: regency.type_poligon,
-    },
-    geometry: {
-      type: regency.type_poligon, // bisa Polygon atau MultiPolygon
-      coordinates: regency.polygons[0], // Koordinat untuk Polygon atau MultiPolygon
-    },
-  }));
+  const geoJsonFeatures: FeatureCollection = {
+    type: 'FeatureCollection', // Pastikan ini adalah 'FeatureCollection'
+    features: data.map((regency: any) => ({
+      type: 'Feature', // Pastikan ini adalah 'Feature'
+      properties: {
+        name: regency.name,
+        type_poligon: regency.type_poligon,
+        totalTouristDestination: regency.totalPopulation,
+      },
+      geometry: {
+        type: regency.type_poligon, // Pastikan ini adalah 'Polygon' atau 'MultiPolygon'
+        coordinates: regency.polygons[0], // Pastikan ini adalah array dari koordinat yang benar
+      },
+    })),
+  };
 
   const getColor = function (data: number) {
     return data > 30
@@ -67,7 +70,7 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
               </div>`
             );
           }}
-          popupOptions={{ autoClose: false }}
+          // popupOptions={{ autoClose: false }}
           style={(feature) => ({
             color: '#f8fafc',
             weight: 2,

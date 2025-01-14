@@ -42,7 +42,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
       },
       geometry: {
         type: regency.type_poligon, // Pastikan ini adalah 'Polygon' atau 'MultiPolygon'
-        coordinates: regency.polygons, // Pastikan ini adalah array dari koordinat yang benar
+        coordinates: regency.polygons[0], // Pastikan ini adalah array dari koordinat yang benar
       },
     })),
   };
