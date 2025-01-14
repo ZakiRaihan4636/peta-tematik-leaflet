@@ -13,7 +13,8 @@ interface LocationData {
   totalPrivateCollege: number;
   totalTourism: number;
   totalTouristDestination: number;
-  polygons: number[][][];
+  type_poligon: string;
+  polygons: number[][][] | number[][];
 }
 
 const ClientSideMap = () => {
