@@ -35,7 +35,7 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
       },
       geometry: {
         type: regency.type_poligon, // Pastikan ini adalah 'Polygon' atau 'MultiPolygon'
-        coordinates: regency.polygons, // Pastikan ini adalah array dari koordinat yang benar
+        coordinates: regency.polygons[0], // Pastikan ini adalah array dari koordinat yang benar
       },
     })),
   };
@@ -81,7 +81,7 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
           }}
           // popupOptions={{ autoClose: false }}
           style={(feature) => ({
-            color: '#f8fafc',
+            color: '#333',
             weight: 2,
             opacity: 1,
             fillColor: getColor(feature?.properties.totalTouristDestination),

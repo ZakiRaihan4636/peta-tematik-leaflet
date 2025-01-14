@@ -9,21 +9,22 @@ const Legend: React.FC<{ dataTuris: any }> = ({ dataTuris }) => {
   const [legendData, setLegendData] = useState<LegendItem[]>([]);
 
   // Fungsi untuk menentukan warna berdasarkan nilai
-  const getColor = (totalTourism: number) => {
-    return totalTourism > 30
-      ? '#5D51F2'
-      : totalTourism > 20
-      ? '#695CFF'
-      : totalTourism > 10
-      ? '#7D74F5'
-      : totalTourism > 5
-      ? '#9E97F7'
-      : totalTourism > 1
-      ? '#BEB9FA'
-      : totalTourism > 1
-      ? '#BEB9FA' // Kuning oranye cerah
-      : '#BEB9FA'; // Kuning pudar
+  const getColor = function (totalTourism: number) {
+    return totalTourism > 1354023
+      ? '#7A00E6'
+      : totalTourism > 675000
+      ? '#9C27B0'
+      : totalTourism > 29270
+      ? '#BA68C8'
+      : totalTourism > 150000
+      ? '#E1BEE7'
+      : totalTourism > 75000
+      ? '#F8BBD0'
+      : totalTourism > 50000
+      ? '#F8BBD0' // Ungu muda
+      : '#F8BBD0'; // Ungu pudar
   };
+
 
   const getLegendData = () => {
     setLegendData(dataTuris);

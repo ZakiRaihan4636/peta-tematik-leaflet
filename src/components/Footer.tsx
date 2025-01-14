@@ -78,7 +78,7 @@ const Footer = () => {
     <FooterContainer>
       <div className="footer-content">
         {/* Logo */}
-        <div className="logo">MyCompany</div>
+        <div className="logo">SIG BALI</div>
 
         {/* Navigation Links */}
         <nav className="nav">
@@ -89,23 +89,41 @@ const Footer = () => {
 
         {/* Social Media Icons */}
         <div className="social-icons">
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Facebook />
           </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Instagram />
           </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Twitter />
           </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <GitHub />
           </a>
         </div>
       </div>
 
       {/* Credits */}
-      <div className="credits">&copy; {new Date().getFullYear()} MyCompany. All rights reserved.</div>
+      <div className="credits">
+        &copy; {new Date().getFullYear()} MyCompany. All rights reserved.
+      </div>
     </FooterContainer>
   );
 };

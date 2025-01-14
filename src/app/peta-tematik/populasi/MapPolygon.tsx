@@ -27,7 +27,7 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
       properties: {
         name: regency.name,
         type_poligon: regency.type_poligon,
-        totalTouristDestination: regency.totalPopulation,
+        totalPopulation: regency.totalPopulation,
       },
       geometry: {
         type: regency.type_poligon, // Pastikan ini adalah 'Polygon' atau 'MultiPolygon'
@@ -37,15 +37,15 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
   };
 
   const getColor = function (data: number) {
-    return data > 30
+    return data > 100000
       ? '#1e3a8a' // Biru gelap
-      : data > 20
+      : data > 80000
       ? '#2563eb' // Biru terang medium
-      : data > 10
+      : data > 60000
       ? '#3b82f6' // Biru terang
-      : data > 5
+      : data > 40000
       ? '#60a5fa' // Biru muda
-      : data > 1
+      : data > 20000
       ? '#93c5fd' // Biru sangat muda
       : '#bfdbfe'; // Biru pudar
   };
@@ -58,7 +58,10 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
         scrollWheelZoom={true}
         style={{ height: '500px', width: '100%', marginTop: '5px' }}
       >
-        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
         <GeoJSON
           key="Regencies"
           data={geoJsonFeatures}
@@ -66,15 +69,17 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
             layer.bindPopup(
               `<div>
                 <h3>${feature.properties.name}</h3>
-                <p>Jumlah Populasi: ${feature.properties.totalPopulation}</p>
+             <p>${(feature.properties.totalPopulation / 100).toFixed(
+               0
+             )} ribu jiwa</p>
               </div>`
             );
           }}
           // popupOptions={{ autoClose: false }}
           style={(feature) => ({
-            color: '#f8fafc',
+            color: '#333',
             weight: 2,
-            opacity: 1,
+            opacity: 0.5,
             fillColor: getColor(feature?.properties.totalPopulation),
             fillOpacity: 0.5,
           })}

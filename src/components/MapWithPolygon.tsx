@@ -87,12 +87,12 @@ const MapComponent: React.FC<MapComponentProps> = ({ data, title }) => {
             layer.bindPopup(
               `<div>
                 <h3>${feature.properties.name}</h3>
-                <p>Jumlah Masjid: ${feature.properties.totalMosque}</p>
+                <p>${feature.properties.totalMosque} Masjid</p>
               </div>`
             );
           }}
           style={(feature: any) => ({
-            color: 'blue',
+            color: '#333',
             weight: 2,
             opacity: 1,
             fillColor: getColor(feature.properties.totalMosque),

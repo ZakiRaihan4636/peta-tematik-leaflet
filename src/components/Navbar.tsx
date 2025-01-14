@@ -30,7 +30,7 @@ const Styledheader = styled.div`
   }
   .header .logo h1 {
     color: #10b981;
-    font-size: 2.5rem;
+    font-size: 1.7rem;
     font-weight: 700;
   }
   .header .logo img {
@@ -42,7 +42,7 @@ const Styledheader = styled.div`
 
   .header .menu ul {
     list-style: none;
-    margin-top: 20px;
+    margin-top: 15px;
   }
 
   .header .menu ul li {
@@ -403,21 +403,38 @@ const NavbarComponent = () => {
         <div className="container">
           <div className="logo">
             <Link href="/" className="a" onClick={() => setIsMenuOpen(false)}>
-              <h1>logo</h1>
+              <h1>SIG BALI</h1>
             </Link>
           </div>
           <nav className="menu" ref={menuRef}>
             <div className="head">
               <div className="logo">
-                <Link href="/" className="a" onClick={() => setIsMenuOpen(false)}>
-                  <h1>logo</h1>
+                <Link
+                  href="/"
+                  className="a"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <h1>SIG BALI</h1>
                 </Link>
               </div>
-              <button type="button" className="close_menu_btn" aria-label="Close menu" onClick={toggleMenu}></button>
+              <button
+                type="button"
+                className="close_menu_btn"
+                aria-label="Close menu"
+                onClick={toggleMenu}
+              ></button>
             </div>
             <ul>
-              <li className={`menu-item dropdown ${activeDropdown === 0 ? 'active' : ''}`}>
-                <Link href="#" className="a" onClick={() => handleDropdownClick(0)}>
+              <li
+                className={`menu-item dropdown ${
+                  activeDropdown === 0 ? 'active' : ''
+                }`}
+              >
+                <Link
+                  href="#"
+                  className="a"
+                  onClick={() => handleDropdownClick(0)}
+                >
                   Peta tematik
                 </Link>
                 <i onClick={() => handleDropdownClick(0)}>
@@ -425,65 +442,116 @@ const NavbarComponent = () => {
                 </i>
                 <ul className="submenu">
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/populasi" className="a" onClick={() => setIsMenuOpen(false)}>
+                    <Link
+                      href="/peta-tematik/populasi"
+                      className="a"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       <span>Populasi</span>
                     </Link>
                   </li>
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/masjid" className="a" onClick={() => setIsMenuOpen(false)}>
+                    <Link
+                      href="/peta-tematik/masjid"
+                      className="a"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       <span>Masjid</span>
                     </Link>
                   </li>
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/perguruan-tinggi" className="a" onClick={() => setIsMenuOpen(false)}>
+                    <Link
+                      href="/peta-tematik/perguruan-tinggi"
+                      className="a"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       <span>Perguruan Tinggi</span>
                     </Link>
                   </li>
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/rumah-sakit" className="a" onClick={() => setIsMenuOpen(false)}>
+                    <Link
+                      href="/peta-tematik/rumah-sakit"
+                      className="a"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       <span>Rumah sakit</span>
                     </Link>
                   </li>
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/turis" className="a" onClick={() => setIsMenuOpen(false)}>
+                    <Link
+                      href="/peta-tematik/turis"
+                      className="a"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       <span>Turis</span>
                     </Link>
                   </li>
                   <li className="submenu-tentang">
-                    <Link href="/peta-tematik/destinasi-wisata" className="a" onClick={() => setIsMenuOpen(false)}>
+                    <Link
+                      href="/peta-tematik/destinasi-wisata"
+                      className="a"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       <span>Destinasi Wisata</span>
                     </Link>
                   </li>
                 </ul>
               </li>
               <li className="menu-item">
-                <Link className="a" onClick={() => setIsMenuOpen(false)} href="/kabupaten">
+                <Link
+                  className="a"
+                  onClick={() => setIsMenuOpen(false)}
+                  href="/kabupaten"
+                >
                   Kota/Kabupaten
                 </Link>
               </li>
 
               <li className="menu-item">
-                <Link className="a" onClick={() => setIsMenuOpen(false)} href="/kecamatan">
+                <Link
+                  className="a"
+                  onClick={() => setIsMenuOpen(false)}
+                  href="/kecamatan"
+                >
                   Kecamatan
                 </Link>
               </li>
               <li className="menu-item">
-                <Link className="a" onClick={() => setIsMenuOpen(false)} href="/tentang">
+                <Link
+                  className="a"
+                  onClick={() => setIsMenuOpen(false)}
+                  href="/tentang"
+                >
                   Tentang
                 </Link>
               </li>
               <div className="mt-3">
-                <Link target="_blank" aria-current="page" href="/" className="daftar">
+                <Link
+                  target="_blank"
+                  aria-current="page"
+                  href="/"
+                  className="daftar"
+                >
                   Hubungi Kami
                 </Link>
               </div>
             </ul>
           </nav>
           <div className="header__right">
-            <Link aria-current="page" target="_blank" href="/" className="daftar">
+            <Link
+              aria-current="page"
+              target="_blank"
+              href="/"
+              className="daftar"
+            >
               Hubungi Kami
             </Link>
-            <button type="button" className="open_menu_btn" aria-label="Open menu" onClick={toggleMenu}>
+            <button
+              type="button"
+              className="open_menu_btn"
+              aria-label="Open menu"
+              onClick={toggleMenu}
+            >
               <span className="line line1"></span>
               <span className="line line2"></span>
               <span className="line line3"></span>

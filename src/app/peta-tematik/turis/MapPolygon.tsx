@@ -27,7 +27,7 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
       properties: {
         name: regency.name,
         type_poligon: regency.type_poligon,
-        totalTouristDestination: regency.totalTourism,
+        totalTourism: regency.totalTourism,
       },
       geometry: {
         type: regency.type_poligon, // Pastikan ini adalah 'Polygon' atau 'MultiPolygon'
@@ -37,19 +37,19 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
   };
 
   const getColor = function (data: number) {
-    return data > 30
-      ? '#5D51F2'
-      : data > 20
-      ? '#695CFF'
-      : data > 10
-      ? '#7D74F5'
-      : data > 5
-      ? '#9E97F7'
-      : data > 1
-      ? '#BEB9FA'
-      : data > 1
-      ? '#BEB9FA' // Kuning oranye cerah
-      : '#BEB9FA'; // Kuning pudar
+    return data > 1354023
+      ? '#7A00E6'
+      : data > 675000
+      ? '#9C27B0'
+      : data > 29270
+      ? '#BA68C8'
+      : data > 150000
+      ? '#E1BEE7'
+      : data > 75000
+      ? '#F8BBD0'
+      : data > 50000
+      ? '#F8BBD0' // Ungu muda
+      : '#F8BBD0'; // Ungu pudar
   };
 
   return (
@@ -77,8 +77,7 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
           }}
           // popupOptions={{ autoClose: false }}
           style={(feature) => ({
-            color: '#f8fafc',
-            weight: 2,
+            color: '#333',
             opacity: 1,
             fillColor: getColor(feature?.properties.totalTourism),
             fillOpacity: 0.5,

@@ -77,13 +77,13 @@ const MapPolygon: React.FC<MapComponentProps> = ({ data }) => {
             layer.bindPopup(
               `<div>
                 <h3>${feature.properties.name}</h3>
-                <p>Jumlah Perguruan Tinggi: ${feature.properties.totalPrivateCollege}</p>
+                <p>${feature.properties.totalPrivateCollege}  Perguruan Tinggi</p>
               </div>`
             );
           }}
           // popupOptions={{ autoClose: false }}
           style={(feature) => ({
-            color: '#f8fafc',
+            color: '#333',
             weight: 2,
             opacity: 1,
             fillColor: getColor(feature?.properties.totalPrivateCollege),
